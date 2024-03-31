@@ -1,9 +1,26 @@
+import { useState } from "react";
 import "../Styles/Slide1.css";
 import phone from "../assets/phone.png";
 import info from "../assets/info.png";
 import prev from "../assets/prevButton.png";
 import next from "../assets/nextButton.png";
+import { Link } from "react-router-dom";
+
 const Footer = () => {
+  const [value, setValue] = useState(1);
+
+  const handleNextClick = () => {
+    if (value < 2) {
+      setValue((prevValue) => prevValue + 1);
+    }
+  };
+
+  const handlePrevClick = () => {
+    if (value > 0) {
+      setValue((prevValue) => prevValue - 1);
+    }
+  };
+
   return (
     <>
       <div className="footer">
@@ -12,11 +29,20 @@ const Footer = () => {
         </div>
         <div className="pagingConatiner">
           <div className="prevImg">
-            <img src={prev} alt="prev" className="button1" />
+            {value > 0 && (
+              <Link to="/" onClick={handlePrevClick}>
+                <img src={prev} alt="prev" className="button1" />
+              </Link>
+            )}
           </div>
           <div className="inputContainer">
             <div className="custom-div">
-              <input type="text" className="page-input" value={1} />
+              <input
+                type="text"
+                className="page-input"
+                value={value}
+                readOnly
+              />
               <div className="vertical-line"></div>
               <button className="dropdown-icon">
                 <svg
@@ -34,9 +60,12 @@ const Footer = () => {
               </button>
             </div>
           </div>
-
           <div className="prevImg">
-            <img src={next} alt="next" className="button1" />
+            {value < 2 && (
+              <Link to="/slide2" onClick={handleNextClick}>
+                <img src={next} alt="next" className="button1" />
+              </Link>
+            )}
           </div>
         </div>
         <div className="info">
